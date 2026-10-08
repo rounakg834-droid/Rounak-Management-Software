@@ -115,7 +115,9 @@ function showSection(sectionId, button) {
 
     bank: "Bank Details",
 
-    reports: "Reports"
+    reports: "Reports",
+
+    account: "My Account"
 
 };
 
@@ -139,6 +141,13 @@ if (sectionId === "reports") {
     renderSalesReport();
 
 }
+
+if (sectionId === "account") {
+
+    loadAccountDetails();
+
+}
+
 
 }
 
@@ -2716,195 +2725,8 @@ clearBill();
             return bill;}
 
 
-/* ================= FORMAT BILL TEXT ================= */
 
-function createBillText() {
 
-    const customerName =
-        document
-            .getElementById("billingCustomerName")
-            .value
-            .trim();
-
-    const mobile =
-        document
-            .getElementById("billingCustomerMobile")
-            .value
-            .trim();
-
-    const date =
-        document
-            .getElementById("billingDate")
-            .value;
-
-
-    if (!customerName || !mobile) {
-
-        alert("Please enter customer details.");
-
-        return null;
-
-    }
-
-
-    if (currentBillItems.length === 0) {
-
-        alert("Please add at least one product.");
-
-        return null;
-
-    }
-
-
-    const calculation =
-        getCurrentBillCalculation();
-
-
-    let text = "";
-
-    text += `*${STORE_NAME}*\n`;
-
-    text += `${STORE_ADDRESS}\n`;
-
-    text += `Contact: ${STORE_CONTACT}\n`;
-
-    text += `GST NO: ${STORE_GST}\n`;
-
-    text += `\n`;
-
-    text += `*INVOICE / BILL*\n`;
-
-    text += `Date: ${date}\n`;
-
-    text += `Customer: ${customerName}\n`;
-
-    text += `Mobile: ${mobile}\n`;
-
-    text += `\n`;
-
-    text += `*PRODUCTS*\n`;
-
-    text += `--------------------------\n`;
-
-
-    currentBillItems.forEach((item, index) => {
-
-        text +=
-            `${index + 1}. ${item.productName}\n`;
-
-        text +=
-            `   MRP: ₹${formatNumber(item.mrp)} | ` +
-            `Qty: ${item.quantity} | ` +
-            `Amount: ₹${formatNumber(item.total)}\n`;
-
-    });
-
-
-    text += `--------------------------\n`;
-
-    text +=
-        `Subtotal: ₹${formatNumber(
-            calculation.subtotal
-        )}\n`;
-
-
-    if (calculation.discountType === "percent") {
-
-        text +=
-            `Discount: ${calculation.discount}% ` +
-            `(₹${formatNumber(
-                calculation.discountAmount
-            )})\n`;
-
-    } else {
-
-        text +=
-            `Discount: ₹${formatNumber(
-                calculation.discountAmount
-            )}\n`;
-
-    }
-
-
-    text +=
-        `*FINAL TOTAL: ₹${formatNumber(
-            calculation.finalTotal
-        )}*\n`;
-
-
-    text += `\n`;
-
-    text += `Thank you for shopping with us!`;
-
-
-    return text;
-
-}
-
-
-/* ================= WHATSAPP SHARE ================= */
-
-function shareBillOnWhatsApp() {
-
-    const customerMobile =
-        document
-            .getElementById("billingCustomerMobile")
-            .value
-            .trim();
-
-
-    if (!customerMobile) {
-
-        alert(
-            "Please enter customer mobile number."
-        );
-
-        return;
-
-    }
-
-
-    const billText =
-        createBillText();
-
-
-    if (!billText) {
-        return;
-    }
-
-
-    /*
-       Remove spaces, +, -, brackets etc.
-       WhatsApp requires country code.
-
-       India:
-       9876543210
-       becomes:
-       919876543210
-    */
-
-    let phone =
-        customerMobile.replace(/\D/g, "");
-
-
-    if (phone.length === 10) {
-
-        phone = "91" + phone;
-
-    }
-
-
-    const whatsappURL =
-        `https://wa.me/${phone}?text=` +
-        encodeURIComponent(billText);
-
-
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
-
-}
 
 
 /* ================= PRINT BILL ================= */
@@ -4688,3 +4510,74 @@ window.printBill = printBill;
 window.viewBill = viewBill;
 
 window.printSavedBill = printSavedBill;
+
+// ================= ACCOUNT DETAILS =================
+
+function loadAccountDetails() {
+    const savedBusiness = JSON.parse(
+        localStorage.getItem("business_details") || "null"
+    );
+
+    if (!savedBusiness) {
+        return;
+    }
+
+    document.getElementById("accountName").value =
+        savedBusiness.name || "";
+
+    document.getElementById("accountAddress").value =
+        savedBusiness.address || "";
+
+    document.getElementById("accountContact").value =
+        savedBusiness.contact || "";
+
+    document.getElementById("accountGST").value =
+        savedBusiness.gst || "";
+}
+
+
+function editAccountDetails() {
+    document.getElementById("accountName").readOnly = false;
+    document.getElementById("accountAddress").readOnly = false;
+    document.getElementById("accountContact").readOnly = false;
+    document.getElementById("accountGST").readOnly = false;
+
+    document.getElementById("saveAccountBtn").style.display =
+        "inline-block";
+}
+
+
+function saveAccountDetails() {
+
+    const businessDetails = {
+        name: document.getElementById("accountName").value.trim(),
+        address: document.getElementById("accountAddress").value.trim(),
+        contact: document.getElementById("accountContact").value.trim(),
+        gst: document.getElementById("accountGST").value.trim()
+    };
+
+    if (
+        !businessDetails.name ||
+        !businessDetails.address ||
+        !businessDetails.contact ||
+        !businessDetails.gst
+    ) {
+        alert("Please fill all business details.");
+        return;
+    }
+
+    localStorage.setItem(
+        "business_details",
+        JSON.stringify(businessDetails)
+    );
+
+    document.getElementById("accountName").readOnly = true;
+    document.getElementById("accountAddress").readOnly = true;
+    document.getElementById("accountContact").readOnly = true;
+    document.getElementById("accountGST").readOnly = true;
+
+    document.getElementById("saveAccountBtn").style.display =
+        "none";
+
+    alert("Account details saved successfully.");
+}
