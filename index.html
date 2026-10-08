@@ -52,6 +52,11 @@
     Reports
 </button>
 
+<button class="nav-btn" onclick="showSection('account', this)">
+    Account
+</button>
+
+
         </nav>
 
     </aside>
@@ -90,6 +95,9 @@
                     <p>
                         Manage products, customers, parties, billing and bank records.
                     </p>
+
+
+
 
                 </div>
 
@@ -798,19 +806,8 @@
         Print Bill
     </button>
 
-    <button
-        class="whatsapp-btn"
-        onclick="shareBillOnWhatsApp()"
-    >
-        Share on WhatsApp
-    </button>
-
-    <button
-        class="secondary-btn"
-        onclick="clearBill()"
-    >
-        Clear Bill
-    </button>
+    
+      
 
 </div>
                         
@@ -1034,6 +1031,57 @@
                 <div id="bankList" class="data-list"></div>
 
             </section>
+
+<!-- ================= ACCOUNT ================= -->
+
+<section id="account" class="section">
+
+    <div class="section-header">
+
+        <div>
+            <h2>My Account</h2>
+            <p>View and manage your business details.</p>
+        </div>
+
+    </div>
+
+    <div class="card account-card">
+
+        <div class="form-group">
+            <label>Business / Shop Name</label>
+            <input type="text" id="accountName" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Business Address</label>
+            <input type="text" id="accountAddress" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="text" id="accountContact" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>GST Number</label>
+            <input type="text" id="accountGST" readonly>
+        </div>
+
+        <button class="primary-btn" onclick="editAccountDetails()">
+            Edit Details
+        </button>
+
+        <button
+            class="primary-btn"
+            onclick="saveAccountDetails()"
+            style="display:none;"
+            id="saveAccountBtn">
+            Save Changes
+        </button>
+
+    </div>
+
+</section>
 
 
         </div>
