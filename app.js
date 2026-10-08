@@ -2446,10 +2446,52 @@ function escapeHtml(value) {
 }
 /* ================= STORE BILL DETAILS ================= */
 
-const STORE_NAME = "RADHIKA GENERAL STORE";
-const STORE_ADDRESS = "Meena Bazar Chowk, Ballia";
-const STORE_CONTACT = "7505458511";
-const STORE_GST = "09AJJPD9884F1ZQ";
+let STORE_NAME = "RADHIKA GENERAL STORE";
+let STORE_ADDRESS = "Meena Bazar Chowk, Ballia";
+let STORE_CONTACT = "7505458511";
+let STORE_GST = "09AJJPD9884F1ZQ";
+
+let savedBusiness = JSON.parse(localStorage.getItem("business_details") || "null");
+
+if (savedBusiness) {
+    STORE_NAME = savedBusiness.name;
+    STORE_ADDRESS = savedBusiness.address;
+    STORE_CONTACT = savedBusiness.contact;
+    STORE_GST = savedBusiness.gst;
+}
+
+function setupBusinessDetails() {
+    const name = prompt("Enter Business / Shop Name:");
+    const address = prompt("Enter Business Address:");
+    const contact = prompt("Enter Mobile Number:");
+    const gst = prompt("Enter GST Number:");
+
+    if (!name || !address || !contact || !gst) {
+        alert("Please enter all business details.");
+        setupBusinessDetails();
+        return;
+    }
+
+    STORE_NAME = name;
+    STORE_ADDRESS = address;
+    STORE_CONTACT = contact;
+    STORE_GST = gst;
+
+    localStorage.setItem("business_details", JSON.stringify({
+        name: name,
+        address: address,
+        contact: contact,
+        gst: gst
+    }));
+
+    location.reload();
+}
+
+if (!savedBusiness) {
+    setupBusinessDetails();
+}
+
+
 
 
 /* ================= GET BILL CALCULATION ================= */
