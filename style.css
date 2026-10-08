@@ -685,19 +685,9 @@ td {
     background: #dfe5ee;
 }
 
-.whatsapp-btn {
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 11px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
 
-.whatsapp-btn:hover {
-    background: #1ebe5d;
-}
+
+
 .bill-buttons {
     display: flex;
     gap: 8px;
@@ -717,4 +707,63 @@ td {
 
 .view-btn:hover {
     background: #174fc7;
+}
+
+/* ================= ACCOUNT PAGE ================= */
+
+.account-card {
+    max-width: 700px;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.account-card .form-group {
+    margin-bottom: 20px;
+}
+
+.account-card label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 7px;
+}
+
+.account-card input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #f8fafc;
+    color: #1f2937;
+    outline: none;
+}
+
+.account-card input:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+}
+
+.account-card input[readonly] {
+    cursor: default;
+}
+
+.account-card .primary-btn {
+    margin-top: 5px;
+    margin-right: 8px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.account-card .primary-btn:hover {
+    background: #1d4ed8;
 }
